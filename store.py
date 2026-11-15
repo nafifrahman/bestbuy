@@ -1,8 +1,5 @@
 """Store management for the Best Buy application."""
 
-import products
-
-
 class Store:
     """Manage a collection of products and customer orders."""
 
@@ -73,71 +70,3 @@ class Store:
             total_price += product.buy(quantity)
 
         return total_price
-
-
-def main():
-    """Run the assignment's Store example."""
-    product_list = [
-        products.Product(
-            "MacBook Air M2",
-            price=1450,
-            quantity=100,
-        ),
-        products.Product(
-            "Bose QuietComfort Earbuds",
-            price=250,
-            quantity=500,
-        ),
-        products.Product(
-            "Google Pixel 7",
-            price=500,
-            quantity=250,
-        ),
-    ]
-
-    best_buy = Store(product_list)
-    available_products = best_buy.get_all_products()
-
-    print(best_buy.get_total_quantity())
-
-    print(
-        best_buy.order([
-            (available_products[0], 1),
-            (available_products[1], 2),
-        ])
-    )
-
-    print("Stock after order:", best_buy.get_total_quantity())
-
-    print("\n--- Repeated product test ---")
-
-    bose = available_products[1]
-
-    repeated_order_total = best_buy.order([
-        (bose, 5),
-        (bose, 10),
-    ])
-
-    print("Order cost:", repeated_order_total)
-    print("Bose stock:", bose.get_quantity())
-
-    print("\n--- Failed order test ---")
-
-    mac = available_products[0]
-    stock_before = best_buy.get_total_quantity()
-
-    try:
-        best_buy.order([
-            (bose, 1),
-            (mac, 1000),
-        ])
-    except ValueError as error:
-        print(error)
-
-    stock_after = best_buy.get_total_quantity()
-
-    print("Stock unchanged:", stock_before == stock_after)
-
-
-if __name__ == "__main__":
-    main()
